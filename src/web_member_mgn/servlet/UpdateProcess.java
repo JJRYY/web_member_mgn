@@ -6,34 +6,34 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import web_member_mgn.dto.Member;
 import web_member_mgn.service.MemberService;
 
-@WebServlet("/loginProcess")
-public class LoginProcess extends HttpServlet {
+@WebServlet("/updateProcess")
+public class UpdateProcess extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private MemberService service = new MemberService();
-
+       
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String id = request.getParameter("id");
-		String pass = request.getParameter("pass");
-		
-//		System.out.printf("id : %s, pass : %s", id, pass);
-		
-		Member loginMember = new Member(id, pass);
-		Member result = service.loginMember(loginMember);
-		
-//		System.out.printf("loginMember : %s%n result : %s%n", loginMember, result);
-		
-		if(result != null) {
-			HttpSession session = request.getSession();
-			session.setAttribute("member", result);
-			request.getRequestDispatcher("main.jsp").forward(request, response);
-		} else {
-			request.getRequestDispatcher("loginForm.jsp").forward(request, response);
+		Member member = getMember(request);
+		service.modifyMember(member);
+		request.getRequestDispatcher("memberList").forward(request, response);
+	}
+
+	private Member getMember(HttpServletRequest request) {
+		Member member = null;
+		try {
+			String id = request.getParameter("id").trim();
+			String name = request.getParameter("name").trim();
+			int age = Integer.parseInt(request.getParameter("age").trim());
+			String gender = request.getParameter("gender").trim();
+			String email = request.getParameter("email").trim();
+			member = new Member(id, name, age, gender, email);
+		}catch (Exception e) {
+			throw new RuntimeException();
 		}
+		return member;
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

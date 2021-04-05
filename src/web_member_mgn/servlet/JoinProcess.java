@@ -6,6 +6,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import web_member_mgn.dto.Member;
 import web_member_mgn.service.MemberService;
@@ -19,27 +20,38 @@ public class JoinProcess extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String id = request.getParameter("id");
-		String passwd = request.getParameter("pass");
-		String name = request.getParameter("name");
-		int age = Integer.parseInt(request.getParameter("age"));
-		String gender = request.getParameter("gender");
-		String email = request.getParameter("email");
-		
-		Member member = new Member(id, passwd, name, age, gender, email);
-		int res = service.addMember(member);
-		Member m = (Member) request.getSession().getAttribute("member");
-		
-		if (m.getId().equals("admin")) {
-			request.getRequestDispatcher("memberList").forward(request, response);
-		} else {
-			if (res == 1) {
-				request.getRequestDispatcher("loginForm.jsp").forward(request, response);
-			} else {
-				request.getRequestDispatcher("joinForm.jsp").forward(request, response);
-			}
+		try {
+			Member joinMember = getMember(request);
+//			System.out.println("joinMember : " + joinMember);
+			service.addMember(joinMember);
+			HttpSession session = request.getSession();
+			Member member = (Member) session.getAttribute("member");
+//			if (member.getId().equals("admin")) {
+//				request.getRequestDispatcher("memberList").forward(request, response);
+//			}
+			response.sendRedirect("loginForm.jsp");
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+			request.getRequestDispatcher("joinForm.jsp").forward(request, response);
 		}
 		
+	}
+
+	private Member getMember(HttpServletRequest request) {
+		Member member = null;
+		try {
+			String id = request.getParameter("id").trim();
+			String passwd = request.getParameter("pass").trim();
+			String name = request.getParameter("name").trim();
+			int age = Integer.parseInt(request.getParameter("age").trim());
+			String gender = request.getParameter("gender").trim();
+			String email = request.getParameter("email").trim();
+			member = new Member(id, passwd, name, age, gender, email);
+		} catch(Exception e) {
+			throw new RuntimeException();
+		}
+		
+		return member;
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

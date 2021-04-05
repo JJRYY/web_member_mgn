@@ -57,13 +57,11 @@ public class MemberDaoImpl implements MemberDao {
 		String sql = "select id, name, age, gender, email from member where id != 'admin'";
 		try (PreparedStatement pstmt = con.prepareStatement(sql);
 				ResultSet rs = pstmt.executeQuery()){
-			if(rs.next()) {
 				List<Member> list = new ArrayList<Member>();
-				do {
+				while(rs.next()) {
 					list.add(getMember(rs));
-				} while (rs.next());
+				}
 				return list;
-			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -88,19 +86,18 @@ public class MemberDaoImpl implements MemberDao {
 	}
 
 	@Override
-	public int deleteMember(Member member) {
+	public void deleteMember(Member member) {
 		String sql = "delete from member where id = ?";
 		try (PreparedStatement pstmt = con.prepareStatement(sql)){
 			pstmt.setString(1, member.getId());
-			return pstmt.executeUpdate();
+			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return 0;
 	}
 
 	@Override
-	public int updateMember(Member member) {
+	public void updateMember(Member member) {
 		String sql = "update member set name = ?, age = ?, gender = ?, email = ? where id = ?";
 		try(PreparedStatement pstmt = con.prepareStatement(sql)){
 			pstmt.setString(1, member.getName());
@@ -108,11 +105,28 @@ public class MemberDaoImpl implements MemberDao {
 			pstmt.setString(3, member.getGender());
 			pstmt.setString(4, member.getEmail());
 			pstmt.setString(5, member.getId());
-			return pstmt.executeUpdate();
+			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return 0;
 	}
+
+	@Override
+	public Member selectMember(Member member) {
+		String sql = "select id, name, age, gender, email from member where id = ?";
+		try (PreparedStatement pstmt = con.prepareStatement(sql);){
+			pstmt.setString(1, member.getId());
+			try (ResultSet rs = pstmt.executeQuery();){
+				if(rs.next()) {
+					return getMember(rs);
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	
 
 }

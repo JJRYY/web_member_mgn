@@ -11,6 +11,11 @@ public class Member {
 	public Member() {
 	}
 
+	public Member(String id) {
+		super();
+		this.id = id;
+	}
+
 	public Member(String id, String passwd) {
 		this.id = id;
 		this.passwd = passwd;

@@ -16,6 +16,10 @@ public class MemberService {
 		dao.setCon(con);
 	}
 	
+	public Member searchMember(Member member) {
+		return dao.selectMember(member);
+	}
+	
 	public Member loginMember(Member member) {
 		return dao.selectMemberById(member);
 	}
@@ -28,11 +32,11 @@ public class MemberService {
 		return dao.insertMember(member);
 	}
 	
-	public int modifyMember(Member member) {
-		return dao.updateMember(member);
+	public void modifyMember(Member member) {
+		dao.updateMember(member);
 	}
 	
-	public int removeMember(Member member) {
-		return dao.deleteMember(member);
+	public void removeMember(Member member) {
+		dao.deleteMember(member);
 	}
 }

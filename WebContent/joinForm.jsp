@@ -45,8 +45,8 @@
 			<tr>
 				<td><label for="gender1">성별 : </label></td>
 				<td>
-					<input type="radio" name="gender" value="남" checked id="gender1" />남자
-					<input type="radio" name="gender" value="여" id="gender2" />여자
+					<input type="radio" name="gender" value="남자" checked id="gender1" />남자
+					<input type="radio" name="gender" value="여자" id="gender2" />여자
 				</td>
 			</tr>
 			<tr>

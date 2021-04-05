@@ -5,12 +5,12 @@ import java.util.List;
 import web_member_mgn.dto.Member;
 
 public interface MemberDao {
-	Member selectMemberById(Member member);
-	
 	List<Member> selectMemberByAll();
+	Member selectMemberById(Member member);
+	Member selectMember(Member member);
 	
 	int insertMember(Member member);
-	int deleteMember(Member member);
-	int updateMember(Member member);
+	void deleteMember(Member member);
+	void updateMember(Member member);
 	
 }
