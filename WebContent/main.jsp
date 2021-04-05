@@ -1,14 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
-<c:set var="id" value="${sessionScope.id }" />
-
+<c:if test="${id ne null }">
+	<c:set var="id" value="${sessionScope.id }" />
+</c:if>
 <c:if test="${id eq null }" >
 	<c:redirect url="loginForm.jsp" />
 </c:if>
 
-로그인한 아이디 : ${id }
+<%-- 로그인한 아이디 : ${id } --%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,6 +16,14 @@
 <title>관리자 메인 페이지</title>
 </head>
 <body>
-
+	<h2>회원</h2>
+	<fieldset>
+		<legend>main</legend>
+		<h3>${id }로 로그인 하셨습니다.</h3>
+		<a href="logoutProcess">로그아웃</a><br>
+		<c:if test="${id eq 'admin' }">
+			<a href="memberList">관리자 모드 접속(회원목록 보기)</a>
+		</c:if>
+	</fieldset>
 </body>
 </html>

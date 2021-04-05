@@ -20,12 +20,12 @@ public class LoginProcess extends HttpServlet {
 		String id = request.getParameter("id");
 		String pass = request.getParameter("pass");
 		
-		System.out.printf("id : %s, pass : %s", id, pass);
+//		System.out.printf("id : %s, pass : %s", id, pass);
 		
 		Member loginMember = new Member(id, pass);
 		Member result = service.loginMember(loginMember);
 		
-		System.out.printf("loginMember : %s%n result : %s%n", loginMember, result);
+//		System.out.printf("loginMember : %s%n result : %s%n", loginMember, result);
 		
 		if(result != null) {
 			HttpSession session = request.getSession();

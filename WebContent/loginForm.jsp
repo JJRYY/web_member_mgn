@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="css/loginFormStyle.css">
 </head>
 <body>
-	<form name="Loginform" action="loginProcess" method="get">
+	<form name="loginform" action="loginProcess" method="get">
 		<table>
 			<tr>
 				<td colspan="2" class = "td_title">
@@ -25,8 +25,10 @@
 			</tr>
 			<tr>
 				<td colspan="2">
-					<a href="javascript:Loginform.submit()">로그인</a>&nbsp;&nbsp;
+					<a href="javascript:loginform.submit()">로그인</a>&nbsp;&nbsp;
 					<a href="joinForm.jsp">회원가입</a>
+			</td>
+			</tr>
 		</table>
 	</form>
 </body>
