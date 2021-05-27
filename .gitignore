@@ -99,3 +99,7 @@ $RECYCLE.BIN/
 
 # End of https://www.toptal.com/developers/gitignore/api/windows,eclipse,dbeaver
 /build/
+/.gradle/
+/bin/
+/logs/
+/.project
